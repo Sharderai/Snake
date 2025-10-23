@@ -1,60 +1,56 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "object.h"
+#include "PlayerI.h"
+#include "ObjectI.h"
 
-class player : public object {
+class player : public PlayerI {
     public:
         player();
         player(int, int);
+        ~player();
 
-        void move(int, int) override;
+        //TODO: seperate areas of concern
         void changeDirection(WPARAM);
+        char getDirection();
+        ObjectI* getPosition() const;
 
         object* getTail();
         bool firstPoint();
         void collect(object*);
+
         void lose();
         bool checkPlayState();
     private:
         COLORREF playerColor = RGB(200, 130, 20);
-        object* tail = nullptr;
+        ObjectI* tail = nullptr;
         char direction = '>';
         bool playState = true;
-        int score = 0;
+
+        ObjectI* position;
+        //int score = 0;
 };
 
 player::player() {
+    position = new object();
+    position->setX(0);
+    position->setY(0);
     setColor(playerColor);
     ID = 1;
 }
 
 
-player::player(int x, int y) : object(x, y) {
+player::player(int x, int y) {
+    position = new object();
+    position->setX(x);
+    position->setY(y);
     setColor(playerColor);
     ID = 1;
 }
 
-
-void player::move(int limitX, int limitY) {
-    if ((locX == 0 && direction == '<') || (locX == (limitX - 1) && direction == '>') || (locY == 0 && direction == '^') || (locY == (limitY - 1) && direction == 'v')) {
-        lose();
-    }
-
-    if (direction == '<' && locX > 0) {
-        locX--;
-    }
-    else if (direction == '>' && locX < (limitX - 1)) {
-        locX++;
-    }
-    else if (direction == '^' && locY > 0) {
-        locY--;
-    }
-    else if (direction == 'v' && locY < (limitY - 1)) {
-        locY++;
-    }
+player::~player() {
+    delete position;
 }
-
 
 void player::changeDirection(WPARAM wParam) {
     if (wParam == VK_LEFT && direction != '>') {
@@ -69,6 +65,14 @@ void player::changeDirection(WPARAM wParam) {
     else if (wParam == VK_DOWN && direction != '^') {
         direction = 'v';
     }
+}
+
+char player::getDirection() { 
+    return direction; 
+}
+
+ObjectI* player::getPosition() const {
+    return position;
 }
 
 

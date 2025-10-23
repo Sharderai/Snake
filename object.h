@@ -2,22 +2,21 @@
 #define OBJECT_H
 
 #include <windows.h>
+#include "ObjectI.h"
 
-class object {
+class object : public ObjectI {
     public:
         object();
         object(int, int);
 
-        virtual void move(int, int)=0;
+        int getX() override;
+        int getY() override;
+        void setX(int) override;
+        void setY(int) override;
 
-        int getX();
-        int getY();
-        void setX(int);
-        void setY(int);
-
-        void setColor(COLORREF);
-        COLORREF getColor();
-        int getID();
+        void setColor(COLORREF) override;
+        COLORREF getColor() override;
+        int getID() override;
 
         object* following = nullptr;
     protected:
@@ -25,17 +24,19 @@ class object {
         int locY;
         int ID;
     private:
-        COLORREF color = RGB(120,120,120);
+        COLORREF color;
 };
 
 object::object() {
     locX, locY = 0;
+    color = RGB(120,120,120);
 }
 
 
 object::object(int x,int y) {
     locX = x;
     locY = y;
+    color = RGB(120,120,120);
 }
 
 
