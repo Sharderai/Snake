@@ -25,11 +25,13 @@ PlayerMoveCommand::~PlayerMoveCommand() {
 }
 
 bool PlayerMoveCommand::canMove(int x, int y, char direction) {
-    return player->checkPlayState()
-        || ((x > 0) && (direction == '<'))
-        || ((x < xLimit -1) && (direction == '>')) //TODO: set up global xLimit & yLimit
+    return player->checkPlayState() && 
+        (
+        ((x > 0) && (direction == '<'))
+        || ((x < xLimit -1) && (direction == '>'))
         || ((y > 0) && (direction == '^'))
-        || ((y < yLimit -1) && (direction == 'v'));
+        || ((y < yLimit -1) && (direction == 'v'))
+        );
 }
 
 void PlayerMoveCommand::move() {

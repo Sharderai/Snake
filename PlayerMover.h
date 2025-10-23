@@ -20,7 +20,7 @@ PlayerMover::~PlayerMover() {}
 
 void PlayerMover::moveLeft(PlayerI* player) {
     ObjectI* position = player->getPosition();
-    position()->setX(position()->getX() - 1);
+    position->setX(position()->getX() - 1);
 }
 
 void PlayerMover::moveRight(PlayerI* player) {

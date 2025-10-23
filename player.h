@@ -3,6 +3,7 @@
 
 #include "PlayerI.h"
 #include "ObjectI.h"
+#include "object.h"
 
 class player : public PlayerI {
     public:
@@ -27,11 +28,15 @@ class player : public PlayerI {
         char direction = '>';
         bool playState = true;
 
+        /*
+        * Refactored: Updating to composit design pattern by setting ObjectI* as a field
+        * Using this to set/get x and y coordinates, rather than inheriting functionality from object class
+        */
         ObjectI* position;
-        //int score = 0;
 };
 
 player::player() {
+    //ObjectI* default will use object
     position = new object();
     position->setX(0);
     position->setY(0);
@@ -41,6 +46,7 @@ player::player() {
 
 
 player::player(int x, int y) {
+    //ObjectI* default will use object
     position = new object();
     position->setX(x);
     position->setY(y);
