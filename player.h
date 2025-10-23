@@ -11,7 +11,6 @@ class player : public PlayerI {
         player(int, int);
         ~player();
 
-        //TODO: seperate areas of concern
         void changeDirection(WPARAM);
         char getDirection();
         ObjectI* getPosition() const;
@@ -24,15 +23,11 @@ class player : public PlayerI {
         bool checkPlayState();
     private:
         COLORREF playerColor = RGB(200, 130, 20);
+        ObjectI* position;
         ObjectI* tail = nullptr;
         char direction = '>';
         bool playState = true;
 
-        /*
-        * Refactored: Updating to composit design pattern by setting ObjectI* as a field
-        * Using this to set/get x and y coordinates, rather than inheriting functionality from object class
-        */
-        ObjectI* position;
 };
 
 player::player() {
