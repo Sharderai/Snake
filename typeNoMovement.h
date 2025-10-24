@@ -1,9 +1,9 @@
 #ifndef TYPE_NO_MOVEMENT_H
 #define TYPE_NO_MOVEMENT_H
 
-#include "objectMovementTypeI.h"
+#include "I_MovementType.h"
 
-class typeNoMovement : public objectMovementTypeI {
+class typeNoMovement : public I_MovementType {
     public:
         typeNoMovement();
         void move(object* self, object* target) override;
