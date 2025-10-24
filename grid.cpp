@@ -11,6 +11,9 @@
 #include "field.h"
 #include "points.h"
 
+#include "typeNoMovement.h"
+#include "typeFollowingMovement.h"
+
 #pragma comment(lib, "Winmm.lib")
 #pragma comment(lib, "ole32.lib")
 #pragma comment(lib, "Shell32.lib")
@@ -19,7 +22,7 @@
 
 field gameField(30,20);
 player character(0,0);
-points activePoint(10, 10);
+points activePoint(10, 10, std::make_shared<typeNoMovement>(typeNoMovement()), nullptr);
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 void moveLoop(HWND hwnd);
@@ -140,8 +143,8 @@ void moveLoop(HWND hwnd) {
 
 //checks for collision with active point
 void collisionCheck() {
-    if (character.getX() == activePoint.getX() && character.getY() == activePoint.getY() && !activePoint.checkFollowing()) {
-        points* tailSeg = new points(activePoint.getX(), activePoint.getY());
+    if (character.getX() == activePoint.getX() && character.getY() == activePoint.getY()) {
+        points* tailSeg = new points(activePoint.getX(), activePoint.getY(), std::make_shared<typeNoMovement>(typeNoMovement()), nullptr);
         object* head = &character;
         activePoint.collect(nullptr);
 
@@ -164,7 +167,7 @@ void createPoint(points& activePoint, int limitX, int limitY) {
         std::srand(std::time(nullptr));
         int x = std::rand() % (limitX - 1);
         int y = std::rand() % (limitY - 1);
-        points p(x, y);
+        points p(x, y, std::make_shared<typeNoMovement>(typeNoMovement()), nullptr);
         activePoint = p;
         activePoint.resetIdentity();
     }
