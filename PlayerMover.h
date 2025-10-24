@@ -21,8 +21,8 @@ PlayerMover::~PlayerMover() {}
 
 //Method split into different directions and updated to use pointers now that it's a separate class
 void PlayerMover::moveLeft(PlayerI* player) {
-    ObjectI* position = player->getPosition();
-    position->setX(position()->getX() - 1);
+    ObjectI* position = player->getPosition(); //returns the object pointer which is one of player's fields
+    position->setX(position()->getX() - 1); //updates player's object which holds its position data
 }
 
 void PlayerMover::moveRight(PlayerI* player) {
