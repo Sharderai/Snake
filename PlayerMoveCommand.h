@@ -5,6 +5,7 @@
 #include "PlayerI.h"
 #include "MoveActionI.h"
 
+//New class manages movement decision logic following command design pattern
 class PlayerMoveCommand : public MoveCommandI {
     public:
         PlayerMoveCommand(PlayerI*);
@@ -24,6 +25,7 @@ PlayerMoveCommand::~PlayerMoveCommand() {
     delete mover;
 }
 
+//Separated from legacy move method. Added logic to stop movement if the player has lost.
 bool PlayerMoveCommand::canMove(int x, int y, char direction) {
     return player->checkPlayState() && 
         (
@@ -34,6 +36,8 @@ bool PlayerMoveCommand::canMove(int x, int y, char direction) {
         );
 }
 
+//Method decides if/where the player should move
+//TODO: eventually should refactor to eliminate hard coded directional values, possibly using enum class
 void PlayerMoveCommand::move() {
     int x = player->getPosition()->getX();
     int y = player->getPosition()->getY();

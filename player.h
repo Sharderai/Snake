@@ -5,14 +5,18 @@
 #include "ObjectI.h"
 #include "object.h"
 
+//revised to implement new PlayerI interface instead of object class
 class player : public PlayerI {
     public:
         player();
         player(int, int);
         ~player();
 
+        //TODO: separate concerns
         void changeDirection(WPARAM);
         char getDirection();
+
+        //Added to access (x,y) coordinates
         ObjectI* getPosition() const;
 
         object* getTail();
@@ -23,6 +27,8 @@ class player : public PlayerI {
         bool checkPlayState();
     private:
         COLORREF playerColor = RGB(200, 130, 20);
+        //added object class functionality by using composite pattern rather than extending object class
+        //revised pointers to be of ObjectI interface type in order to decouple player and object classes
         ObjectI* position;
         ObjectI* tail = nullptr;
         char direction = '>';
@@ -49,6 +55,7 @@ player::player(int x, int y) {
     ID = 1;
 }
 
+//added to destroy the ObjectI object set as a field
 player::~player() {
     delete position;
 }
