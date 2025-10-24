@@ -138,24 +138,58 @@ void moveLoop(HWND hwnd) {
 }
 
 
-//checks for collision with active point
-void collisionCheck() {
-    if (character.getX() == activePoint.getX() && character.getY() == activePoint.getY() && !activePoint.checkFollowing()) {
-        points* tailSeg = new points(activePoint.getX(), activePoint.getY());
-        object* head = &character;
-        activePoint.collect(nullptr);
+// Command interface
+class Icommand 
+{
+	public:
+		virtual void execute() = 0;
+		virtual ~ICommand() = default;
+};
 
-        if (!character.firstPoint()) {
-            tailSeg->collect(character.getTail());
-            gameField.updateTile(tailSeg->getX(), tailSeg->getY(), tailSeg->getColor(), gameField.getID());
-        }
-        else {
-            tailSeg->collect(head);
-        }
+// Concrete command for Collision check
+class CollisionCommand : public ICommand 
+{
+	Character& character;
+	ActivePoint& activePoint;
+	GameField& gameField;
 
-        character.collect(tailSeg);
-        createPoint(activePoint, gameField.getX(), gameField.getY());
-    }
+	public:
+		CollisionCommand(Character& c, ActivePoint& p, GameField& gf) 
+			:character(c), activePoint(p), gameField(gf) {}
+
+		void exectue() override
+		{
+			if (character.getX() == activePoint.getX() &&
+				character.getY() --activePoint.getY() &&
+				!activePoint.checkFollowing()) {
+				points* tailSeg = new points(activePoint.getX(), activePoint.getY());
+            object* head = &character;
+            activePoint.collect(nullptr);
+
+            if (!character.firstPoint()) 
+			{
+                tailSeg->collect(character.getTail());
+                gameField.updateTile(tailSeg->getX(), tailSeg->getY(), tailSeg->getColor(), gameField.getID());
+            } 
+			else 
+			{
+                tailSeg->collect(head);
+            }
+
+            character.collect(tailSeg);
+            createPoint(activePoint, gameField.getX(), gameField.getY());
+			}
+		}
+};
+
+// New collision check method with Command Design Pattern
+void Grid::collisionCheck() 
+{
+	for (auto& point : activePoints)
+	{
+		CollisionCommand cmd(character, point, gameField);
+		cmd.execute();
+	}
 }
 
 
