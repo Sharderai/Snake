@@ -6,7 +6,7 @@
 class typeNoMovement : public I_MovementType {
     public:
         typeNoMovement();
-        void move(object* self, object* target) override;
+        void move(ObjectI* self, ObjectI* target) override;
         ~typeNoMovement();
 };
 
@@ -14,7 +14,7 @@ typeNoMovement::typeNoMovement() {
 
 }
 
-void typeNoMovement::move(object* self, object* target) {
+void typeNoMovement::move(ObjectI* self, ObjectI* target) {
     return;
 }
 

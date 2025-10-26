@@ -6,7 +6,7 @@
 class typeFollowingMovement : public I_MovementType {
     public:
         typeFollowingMovement();
-        void move(object* self, object* target) override;
+        void move(ObjectI* self, ObjectI* target) override;
         ~typeFollowingMovement();
 };
 
@@ -14,7 +14,7 @@ typeFollowingMovement::typeFollowingMovement() {
 
 }
 
-void typeFollowingMovement::move(object* self, object* target) {
+void typeFollowingMovement::move(ObjectI* self, ObjectI* target) {
     self->setX(target->getX());
     self->setY(target->getY());
 }

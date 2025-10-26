@@ -9,10 +9,10 @@
 
 class points : public object {
     public:
-        points(int, int, std::shared_ptr<I_MovementType>, object*);
+        points(int, int, std::shared_ptr<I_MovementType>, ObjectI*);
         points& operator=(const points&);
-        void move(int, int) override;
-        void collect(object*);
+        void move(int, int);
+        void collect(ObjectI*);
         bool checkFollowing();
         void resetIdentity();
         ~points();
@@ -22,7 +22,7 @@ class points : public object {
         bool isFollowing = false;
 };
 
-points::points(int x, int y, std::shared_ptr<I_MovementType> startingMovement, object* initialTarget) : object(x, y) {
+points::points(int x, int y, std::shared_ptr<I_MovementType> startingMovement, ObjectI* initialTarget) : object(x, y) {
     setColor(color);
     following = initialTarget;
     movement = startingMovement;
@@ -43,7 +43,7 @@ points& points::operator=(const points& other) {
 void points::move(int limitX, int limitY) {
     movement->move(this, following);
 
-    //checks for keeping points in bounds while moving
+    //checks for keeping points in bounds while moving, for future movement types
     //TODO: make limits global so that these can be checked only when actually relevant
     if (locX < 0) {
         locX = 0;
@@ -61,7 +61,7 @@ void points::move(int limitX, int limitY) {
 }
 
 
-void points::collect(object* pointAhead) {
+void points::collect(ObjectI* pointAhead) {
     isFollowing = true;
     following = pointAhead;
     movement = std::make_shared<typeFollowingMovement>(typeFollowingMovement());

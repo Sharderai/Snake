@@ -2,24 +2,23 @@
 #define OBJECT_H
 
 #include <windows.h>
+#include "ObjectI.h"
 
-class object {
+class object : public ObjectI {
     public:
         object();
         object(int, int);
 
-        virtual void move(int, int)=0;
+        int getX() override;
+        int getY() override;
+        void setX(int) override;
+        void setY(int) override;
 
-        int getX();
-        int getY();
-        void setX(int);
-        void setY(int);
+        void setColor(COLORREF) override;
+        COLORREF getColor() override;
+        int getID() override;
 
-        void setColor(COLORREF);
-        COLORREF getColor();
-        int getID();
-
-        object* following = nullptr;
+        ObjectI* following = nullptr;
     protected:
         int locX;
         int locY;
