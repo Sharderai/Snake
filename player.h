@@ -4,19 +4,18 @@
 #include "PlayerI.h"
 #include "ObjectI.h"
 #include "object.h"
+#include "GameStateI.h"
+#include "ActiveState.h"
 
-//revised to implement new PlayerI interface instead of object class
 class player : public PlayerI {
     public:
         player();
         player(int, int);
         ~player();
 
-        //TODO: separate concerns
         void changeDirection(WPARAM);
         char getDirection();
 
-        //Added to access (x,y) coordinates
         ObjectI* getPosition() const;
 
         object* getTail();
@@ -25,15 +24,12 @@ class player : public PlayerI {
 
         void lose();
         bool checkPlayState();
+
     private:
-        COLORREF playerColor = RGB(200, 130, 20);
-        //added object class functionality by using composite pattern rather than extending object class
-        //revised pointers to be of ObjectI interface type in order to decouple player and object classes
         ObjectI* position;
         ObjectI* tail = nullptr;
         char direction = '>';
-        bool playState = true;
-
+        GameStateI* gameState;
 };
 
 player::player() {
@@ -41,8 +37,10 @@ player::player() {
     position = new object();
     position->setX(0);
     position->setY(0);
-    setColor(playerColor);
-    ID = 1;
+    position->setColor(RGB(200, 130, 20));
+    ID = 1; //legacy code 1 = player
+
+    gameState = new ActiveState();
 }
 
 
@@ -51,13 +49,16 @@ player::player(int x, int y) {
     position = new object();
     position->setX(x);
     position->setY(y);
-    setColor(playerColor);
-    ID = 1;
+    position->setColor(RGB(200, 130, 20));
+    ID = 1; //legacy code 1 = player
+
+    gameState = new ActiveState();
 }
 
 //added to destroy the ObjectI object set as a field
 player::~player() {
     delete position;
+    delete gameState;
 }
 
 void player::changeDirection(WPARAM wParam) {
@@ -100,13 +101,18 @@ void player::collect(object* collected) {
 
 
 void player::lose() {
-    playState = false;
-    setColor(RGB(150,50,10));
+    gameState->lose(this);
 }
 
 
 bool player::checkPlayState() {
-    return playState;
+    return gameState->getPlayState();
+}
+
+
+void player::setGameState(GameStateI* newGameState){
+    delete gameState;
+    gameState = newGameState;
 }
 
 #endif
