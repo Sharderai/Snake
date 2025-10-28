@@ -5,19 +5,15 @@
 
 class ActiveState : public GameStateI {
     public:
-        ActiveState() : gameState(true){}
+        ActiveState() : color(RGB(200, 130, 20)){}
         ~ActiveState(){}
 
-        void lose(PlayerI* player);
-        bool getPlayState(){return gameState;}
-    private:
-        bool gameState; 
-};
+        bool getPlayState(){return true;}
+        bool canMove(){return true;}
+        COLORREF getColor(){return color;}
 
-void ActiveState::lose(PlayerI* player){
-    gameState = false;
-    player->getPosition()->setColor(RGB(150,50,10));
-    player->setGameState(new InactiveState());
-}
+    private:
+        COLORREF color; 
+};
 
 #endif

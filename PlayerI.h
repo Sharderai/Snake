@@ -25,11 +25,8 @@ class PlayerI {
         //Method that updates the game state to lose
         virtual void lose() = 0;
 
-        /*
-        * Method that confirms the play state
-        * True if play is active, otherwise false
-        */
-        virtual bool checkPlayState() = 0;
+        // Method that confirms if the player can move based on rules for the current play state.
+        virtual bool canMove() = 0;
 
         virtual ~PlayerI(){};
 }

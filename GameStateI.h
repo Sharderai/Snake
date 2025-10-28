@@ -2,12 +2,13 @@
 #define GAME_STATE_
 
 class GameState {
-    /*
-    * Method to update the play state if the player loses. 
-    * Player color will be updated and play state will changed be false.
-    */
-    virtual void lose(PlayerI*) = 0;
-    //returns the game state: true if active, false if otherwise
+    // Method to let player know if state is an active type (true) or inactive type (false)
     virtual bool getPlayState() = 0;
+
+    // Returns movement rules associated with the current state
+    virtual bool canMove() = 0;
+
+    //returns object color associated with the current state
+    virtual COLORREF getColor() = 0;
     virtual ~GameState(){}
 }

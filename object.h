@@ -16,6 +16,8 @@ class object : public ObjectI {
 
         void setColor(COLORREF) override;
         COLORREF getColor() override;
+        
+        void setID(int ID)
         int getID() override;
 
         object* following = nullptr;
@@ -67,6 +69,10 @@ void object::setColor(COLORREF newColor) {
 
 COLORREF object::getColor() {
     return color;
+}
+
+void object::setID(int ID) {
+    this.ID = id;
 }
 
 

@@ -5,13 +5,14 @@
 
 class InactiveState : public GameStateI {
     public:
-        InactiveState() : gameState(false){}
+        InactiveState() : color(RGB(150,50,10)){}
         ~InactiveState(){}
 
-        void lose(PlayerI* player){}
-        bool getPlayState(){return gameState;}
+        bool getPlayState(){return false;}
+        bool canMove(){return false;}
+        COLORREF getColor(){return color;}
     private:
-        bool gameState; 
+        COLORREF color; 
 };
 
 #endif

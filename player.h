@@ -23,7 +23,7 @@ class player : public PlayerI {
         void collect(object*);
 
         void lose();
-        bool checkPlayState();
+        bool canMove();
 
     private:
         ObjectI* position;
@@ -33,26 +33,28 @@ class player : public PlayerI {
 };
 
 player::player() {
+    gameState = new ActiveState(); //use this to update it
+
     //ObjectI* default will use object
     position = new object();
     position->setX(0);
     position->setY(0);
-    position->setColor(RGB(200, 130, 20));
-    ID = 1; //legacy code 1 = player
+    position->setID(1); //legacy code 1 = player
+    position->setColor(gameState->getColor());
 
-    gameState = new ActiveState();
+    
 }
 
 
 player::player(int x, int y) {
+    gameState = new ActiveState();
+
     //ObjectI* default will use object
     position = new object();
     position->setX(x);
     position->setY(y);
-    position->setColor(RGB(200, 130, 20));
-    ID = 1; //legacy code 1 = player
-
-    gameState = new ActiveState();
+    position->setID(1); //legacy code 1 = player
+    position->setColor(gameState->getColor());
 }
 
 //added to destroy the ObjectI object set as a field
@@ -101,18 +103,20 @@ void player::collect(object* collected) {
 
 
 void player::lose() {
-    gameState->lose(this);
+    setGameState(new InactiveState());
+    position->setColor(gameState->getColor());
 }
 
 
-bool player::checkPlayState() {
-    return gameState->getPlayState();
+bool player::canMove() {
+    return gameState->canMove();
 }
 
 
 void player::setGameState(GameStateI* newGameState){
     delete gameState;
     gameState = newGameState;
+    position->setColor(gameState->getColor());
 }
 
 #endif

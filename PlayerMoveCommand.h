@@ -27,7 +27,7 @@ PlayerMoveCommand::~PlayerMoveCommand() {
 
 //Separated from legacy move method. Added logic to stop movement if the player has lost.
 bool PlayerMoveCommand::canMove(int x, int y, char direction) {
-    return player->checkPlayState() && 
+    return player->canMove() && 
         (
         ((x > 0) && (direction == '<'))
         || ((x < xLimit -1) && (direction == '>'))
