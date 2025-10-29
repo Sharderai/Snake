@@ -33,7 +33,7 @@ class player : public PlayerI {
 };
 
 player::player() {
-    gameState = new ActiveState(); //use this to update it
+    gameState = new ActiveState();
 
     //ObjectI* default will use object
     position = new object();
@@ -57,7 +57,6 @@ player::player(int x, int y) {
     position->setColor(gameState->getColor());
 }
 
-//added to destroy the ObjectI object set as a field
 player::~player() {
     delete position;
     delete gameState;
@@ -101,17 +100,14 @@ void player::collect(object* collected) {
     tail = collected;
 }
 
+bool player::canMove() {
+    return gameState->canMove();
+}
 
 void player::lose() {
     setGameState(new InactiveState());
     position->setColor(gameState->getColor());
 }
-
-
-bool player::canMove() {
-    return gameState->canMove();
-}
-
 
 void player::setGameState(GameStateI* newGameState){
     delete gameState;

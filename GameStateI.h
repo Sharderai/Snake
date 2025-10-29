@@ -5,7 +5,7 @@ class GameState {
     // Method to let player know if state is an active type (true) or inactive type (false)
     virtual bool getPlayState() = 0;
 
-    // Returns movement rules associated with the current state
+    // Returns movement rule associated with the current state
     virtual bool canMove() = 0;
 
     //returns object color associated with the current state

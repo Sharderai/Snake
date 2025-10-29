@@ -4,7 +4,6 @@
 #include "PlayerI.h"
 #include "ObjectI.h"
 
-//Handles movement action as called by the PlayerMoveCommand class
 class PlayerMover : public MoveActionI {
     public:
         PlayerMover();
@@ -19,10 +18,9 @@ class PlayerMover : public MoveActionI {
 PlayerMover::PlayerMover() {}
 PlayerMover::~PlayerMover() {}
 
-//Method split into different directions and updated to use pointers now that it's a separate class
 void PlayerMover::moveLeft(PlayerI* player) {
-    ObjectI* position = player->getPosition(); //returns the object pointer which is one of player's fields
-    position->setX(position()->getX() - 1); //updates player's object which holds its position data
+    ObjectI* position = player->getPosition();
+    position->setX(position()->getX() - 1);
 }
 
 void PlayerMover::moveRight(PlayerI* player) {
