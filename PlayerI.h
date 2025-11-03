@@ -14,7 +14,7 @@ class PlayerI {
         virtual char getDirection() = 0;
 
         //Method to get the last objection following a player
-        virtual Object* getTail() = 0;
+        virtual ObjectI* getTail() = 0;
 
         //Method to determine if any objects are already following the player
         virtual bool firstPoint() = 0;
@@ -29,4 +29,6 @@ class PlayerI {
         virtual bool canMove() = 0;
 
         virtual ~PlayerI(){};
-}
+};
+
+#endif
