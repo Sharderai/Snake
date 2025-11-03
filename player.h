@@ -6,6 +6,7 @@
 #include "object.h"
 #include "GameStateI.h"
 #include "ActiveState.h"
+#include "InactiveState.h"
 
 class player : public PlayerI {
     public:
@@ -13,17 +14,18 @@ class player : public PlayerI {
         player(int, int);
         ~player();
 
-        void changeDirection(WPARAM);
-        char getDirection();
+        void changeDirection(WPARAM) override;
+        char getDirection() override;
 
         ObjectI* getPosition() const;
 
-        object* getTail();
-        bool firstPoint();
-        void collect(object*);
+        ObjectI* getTail() override;
+        bool firstPoint() override;
+        void collect(object*) override;
 
-        void lose();
-        bool canMove();
+        void lose() override;
+        void setGameState(GameStateI*);
+        bool canMove() override;
 
     private:
         ObjectI* position;
@@ -86,7 +88,7 @@ ObjectI* player::getPosition() const {
 }
 
 
-object* player::getTail() {
+ObjectI* player::getTail() {
     return tail;
 }
 

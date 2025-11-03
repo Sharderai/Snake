@@ -20,6 +20,7 @@ class ObjectI {
         * Legacy code: 1 = player, 2 = collected point, 3 = uncollected point
         */
         virtual int getID() = 0;
+        virtual void setID(int ID) = 0;
 
         virtual ~ObjectI() {}
 };
