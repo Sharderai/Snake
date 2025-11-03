@@ -1,15 +1,17 @@
 #ifndef MOVE_ACTION_I_
 #define MOVE_ACTION_I_
 
+#include "ObjectI.h"
+
 class MoveActionI {
     public:
         /*
         * Methods to move an object in a give direction
         */
-        virtual void moveLeft(Object*) = 0;
-        virtual void moveRight(Object*) = 0;
-        virtual void moveUp(Object*) = 0;
-        virtual void moveDown(Object*) = 0;
+        virtual void moveLeft(ObjectI*) = 0;
+        virtual void moveRight(ObjectI*) = 0;
+        virtual void moveUp(ObjectI*) = 0;
+        virtual void moveDown(ObjectI*) = 0;
 
         virtual ~MoveActionI() {}
 };
