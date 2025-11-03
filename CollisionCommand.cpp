@@ -1,13 +1,18 @@
+/* TODO: uncomment this file after refactoring other files to use split h and cpp files format.
 #include "CollisionCommand.h"
+#include "typeNoMovement.h"
+
+CollisionCommand::CollisionCommand(player& c, points& p, field& gf) : character(c), activePoint(p), gameField(gf) {
+}
 
 void CollisionCommand::execute()
 {
-    if (character.getX() == activePoint.getX() &&
-        character.getY() == activePoint.getY() &&
+    if (character.getPosition()->getX() == activePoint.getX() &&
+        character.getPosition()->getY() == activePoint.getY() &&
         !activePoint.checkFollowing())
     {
-        points* tailSeg = new points(activePoint.getX(), activePoint.getY());
-        object* head = &character;
+        points* tailSeg = new points(activePoint.getX(), activePoint.getY(), std::make_shared<typeNoMovement>(typeNoMovement()), nullptr);
+        ObjectI* head = character.getPosition();
         activePoint.collect(nullptr);
 
         if (!character.firstPoint()) 
@@ -24,7 +29,6 @@ void CollisionCommand::execute()
         }
 
         character.collect(tailSeg);
-        createPoint(activePoint, gameField.getX(), gameField.getY());
     }
 }
-
+*/

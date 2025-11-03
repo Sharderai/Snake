@@ -13,10 +13,10 @@
 #include "GlobalGameValues.h"
 
 #include "PlayerMoveCommand.h"
+#include "CollisionCommand.h"
 
 #include "typeNoMovement.h"
 #include "typeFollowingMovement.h"
-#include "CollisionCommand.h"
 
 #pragma comment(lib, "Winmm.lib")
 #pragma comment(lib, "ole32.lib")
@@ -150,29 +150,12 @@ void moveLoop(HWND hwnd) {
 }
 
 
-//checks for collision with active point
-/*void collisionCheck() {
-    if (character.getPosition()->getX() == activePoint.getX() && character.getPosition()->getY() == activePoint.getY()) {
-        points* tailSeg = new points(activePoint.getX(), activePoint.getY(), std::make_shared<typeNoMovement>(typeNoMovement()), nullptr);
-        ObjectI* head = character.getPosition();
-        activePoint.collect(nullptr);
-
-        if (!character.firstPoint()) {
-            tailSeg->collect(character.getTail());
-            gameField.updateTile(tailSeg->getX(), tailSeg->getY(), tailSeg->getColor(), gameField.getID());
-        }
-        else {
-            tailSeg->collect(head);
-        }
-
-        character.collect(tailSeg);
-        createPoint(activePoint, gameField.getX(), gameField.getY());
-    }*/
 // New CollisionCheck method with Command interface
 void collisionCheck()
 {
 	CollisionCommand cmd(character, activePoint, gameField);
 	cmd.execute();
+    createPoint(activePoint, gameField.getX(), gameField.getY());
 }
 
 
