@@ -11,7 +11,7 @@ class points : public object {
     public:
         points(int, int, std::shared_ptr<I_MovementType>, ObjectI*);
         points& operator=(const points&);
-        void move(int, int);
+        void move();
         void collect(ObjectI*);
         bool checkFollowing();
         void resetIdentity();
@@ -40,24 +40,8 @@ points& points::operator=(const points& other) {
 }
 
 
-void points::move(int limitX, int limitY) {
+void points::move() {
     movement->move(this, following);
-
-    //checks for keeping points in bounds while moving, for future movement types
-    //TODO: make limits global so that these can be checked only when actually relevant
-    if (locX < 0) {
-        locX = 0;
-    }
-    else if (locX >= limitX) {
-        locX = limitX - 1;
-    }
-
-    if (locY < 0) {
-        locY = 0;
-    }
-    else if (locY >= limitY) {
-        locY = limitY-1;
-    }
 }
 
 

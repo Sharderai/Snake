@@ -10,6 +10,7 @@
 #include "player.h"
 #include "field.h"
 #include "points.h"
+#include "GlobalGameValues.h"
 
 #include "typeNoMovement.h"
 #include "typeFollowingMovement.h"
@@ -61,6 +62,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     {
         return 0;
     }
+
+    GlobalGameValues::getInstance().setXLim(gameField.getX());
+    GlobalGameValues::getInstance().setYLim(gameField.getY());
 
     gameField.updateTile(character.getX(), character.getY(), character.getColor(), character.getID());
     createPoint(activePoint, activePoint.getX(), activePoint.getY());

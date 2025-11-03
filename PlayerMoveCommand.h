@@ -5,6 +5,8 @@
 #include "PlayerI.h"
 #include "PlayerMover.h"
 
+#include "GlobalGameValues.h"
+
 class PlayerMoveCommand : public MoveCommandI {
     public:
         PlayerMoveCommand(PlayerI*);
@@ -25,6 +27,9 @@ PlayerMoveCommand::~PlayerMoveCommand() {
 }
 
 bool PlayerMoveCommand::canMove(int x, int y, char direction) {
+    int xLimit = GlobalGameValues::getInstance().getXLim();
+    int yLimit = GlobalGameValues::getInstance().getYLim();
+
     return player->canMove() && 
         (
         ((x > 0) && (direction == '<'))
