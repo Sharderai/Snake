@@ -1,6 +1,8 @@
 #ifndef PLAYER_I_
 #define PLAYER_I_
 
+#include "ObjectI.h"
+
 class PlayerI {
     public:
         /*
@@ -13,6 +15,9 @@ class PlayerI {
         //Method to return the current direction a player is going
         virtual char getDirection() = 0;
 
+        //Method returning player's object position on the field
+        virtual ObjectI* getPosition() const = 0;
+
         //Method to get the last objection following a player
         virtual ObjectI* getTail() = 0;
 
@@ -20,7 +25,7 @@ class PlayerI {
         virtual bool firstPoint() = 0;
 
         //Method to add an object to those trailing the player
-        virtual void collect(object*) = 0;
+        virtual void collect(ObjectI*) = 0;
 
         //Method that updates the game state to lose
         virtual void lose() = 0;

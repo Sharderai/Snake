@@ -17,11 +17,11 @@ class player : public PlayerI {
         void changeDirection(WPARAM) override;
         char getDirection() override;
 
-        ObjectI* getPosition() const;
+        ObjectI* getPosition() const override;
 
         ObjectI* getTail() override;
         bool firstPoint() override;
-        void collect(object*) override;
+        void collect(ObjectI*) override;
 
         void lose() override;
         void setGameState(GameStateI*);
@@ -98,7 +98,7 @@ bool player::firstPoint() {
 }
 
 
-void player::collect(object* collected) {
+void player::collect(ObjectI* collected) {
     tail = collected;
 }
 
