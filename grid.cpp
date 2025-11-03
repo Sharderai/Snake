@@ -12,6 +12,8 @@
 #include "points.h"
 #include "GlobalGameValues.h"
 
+#include "PlayerMoveCommand.h"
+
 #include "typeNoMovement.h"
 #include "typeFollowingMovement.h"
 
@@ -66,7 +68,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     GlobalGameValues::getInstance().setXLim(gameField.getX());
     GlobalGameValues::getInstance().setYLim(gameField.getY());
 
-    gameField.updateTile(character.getX(), character.getY(), character.getColor(), character.getID());
+    gameField.updateTile(character.getPosition()->getX(), character.getPosition()->getY(), character.getPosition()->getColor(), character.getPosition()->getID());
     createPoint(activePoint, activePoint.getX(), activePoint.getY());
     
     ShowWindow(hwnd, nCmdShow);
@@ -116,27 +118,29 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 //thread to keep the snake moving
 void moveLoop(HWND hwnd) {
-        while (character.checkPlayState() == true) {
-            object* target = character.getTail();
+    PlayerMoveCommand movePlayer(&character);
+
+        while (character.getGameState()->getPlayState() == true) {
+            ObjectI* target = character.getTail();
 
             //resets field color
             if (target == nullptr) {
-                gameField.updateTile(character.getX(), character.getY(), gameField.getColor(), gameField.getID());
+                gameField.updateTile(character.getPosition()->getX(), character.getPosition()->getY(), gameField.getColor(), gameField.getID());
             }
             else {
-                gameField.updateTile(character.getX(), character.getY(), target->getColor(), target->getID());
+                gameField.updateTile(character.getPosition()->getX(), character.getPosition()->getY(), target->getColor(), target->getID());
                 gameField.updateTile(target->getX(), target->getY(), gameField.getColor(), gameField.getID());
             }
             collisionCheck();
             moveTail();
             gameField.updateTile(activePoint.getX(), activePoint.getY(), activePoint.getColor(), activePoint.getID());
 
-            character.move(gameField.getX(), gameField.getY());
-            if (gameField.getTile(character.getX(), character.getY()).getID() == 2) {
+            movePlayer.move();
+            if (gameField.getTile(character.getPosition()->getX(), character.getPosition()->getY()).getID() == 2) {
                character.lose();
             }
 
-            gameField.updateTile(character.getX(), character.getY(), character.getColor(), character.getID());
+            gameField.updateTile(character.getPosition()->getX(), character.getPosition()->getY(), character.getPosition()->getColor(), character.getPosition()->getID());
             InvalidateRect(hwnd, NULL, TRUE);
             UpdateWindow(hwnd);
 
@@ -147,9 +151,9 @@ void moveLoop(HWND hwnd) {
 
 //checks for collision with active point
 void collisionCheck() {
-    if (character.getX() == activePoint.getX() && character.getY() == activePoint.getY()) {
+    if (character.getPosition()->getX() == activePoint.getX() && character.getPosition()->getY() == activePoint.getY()) {
         points* tailSeg = new points(activePoint.getX(), activePoint.getY(), std::make_shared<typeNoMovement>(typeNoMovement()), nullptr);
-        object* head = &character;
+        ObjectI* head = character.getPosition();
         activePoint.collect(nullptr);
 
         if (!character.firstPoint()) {
@@ -180,10 +184,10 @@ void createPoint(points& activePoint, int limitX, int limitY) {
 
 
 void moveTail() {
-    object* temp = character.getTail();
+    points* temp = dynamic_cast<points*>(character.getTail());
     while (temp != nullptr && temp->following != nullptr) {
-        temp->move(gameField.getX(), gameField.getY());
+        temp->move();
         gameField.updateTile(temp->getX(), temp->getY(), temp->getColor(), temp->getID());
-        temp = temp->following;
+        temp = dynamic_cast<points*>(temp->following);
     }
 }

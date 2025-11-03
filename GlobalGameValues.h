@@ -1,7 +1,7 @@
 #ifndef GLOBAL_GAME_VALUES_H
 #define GLOBAL_GAME_VALUES_H
 
-static class GlobalGameValues {
+class GlobalGameValues {
     public:
         static GlobalGameValues& getInstance();
 

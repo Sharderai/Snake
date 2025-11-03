@@ -25,6 +25,7 @@ class player : public PlayerI {
 
         void lose() override;
         void setGameState(GameStateI*);
+        GameStateI* getGameState();
         bool canMove() override;
 
     private:
@@ -115,6 +116,11 @@ void player::setGameState(GameStateI* newGameState){
     delete gameState;
     gameState = newGameState;
     position->setColor(gameState->getColor());
+}
+
+
+GameStateI* player::getGameState() {
+    return gameState;
 }
 
 #endif
