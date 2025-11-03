@@ -11,6 +11,8 @@ class GameStateI {
 
         //returns object color associated with the current state
         virtual COLORREF getColor() = 0;
+
+        virtual ~GameStateI(){}
 };
 
 #endif
