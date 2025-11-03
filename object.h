@@ -16,17 +16,11 @@ class object : public ObjectI {
 
         void setColor(COLORREF) override;
         COLORREF getColor() override;
-<<<<<<< HEAD
         
-        void setID(int ID)
-        int getID() override;
-
-        object* following = nullptr;
-=======
+        void setID(int ID);
         int getID() override;
 
         ObjectI* following = nullptr;
->>>>>>> 288f17b3eda8d0cc7d155efb6b77c01860b07707
     protected:
         int locX;
         int locY;
@@ -78,7 +72,7 @@ COLORREF object::getColor() {
 }
 
 void object::setID(int ID) {
-    this.ID = id;
+    this->ID = ID;
 }
 
 
