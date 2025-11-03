@@ -10,10 +10,10 @@ class PlayerMover : public MoveActionI {
         PlayerMover();
         ~PlayerMover();
 
-        void moveLeft(PlayerI*);
-        void moveRight(PlayerI*);
-        void moveUp(PlayerI*);
-        void moveDown(PlayerI*);
+        void moveLeft(PlayerI*) override;
+        void moveRight(PlayerI*) override;
+        void moveUp(PlayerI*) override;
+        void moveDown(PlayerI*) override;
 };
 
 PlayerMover::PlayerMover() {}

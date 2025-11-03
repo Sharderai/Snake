@@ -3,7 +3,7 @@
 
 #include "MoveCommandI.h"
 #include "PlayerI.h"
-#include "MoveActionI.h"
+#include "PlayerMover.h"
 
 class PlayerMoveCommand : public MoveCommandI {
     public:
@@ -18,7 +18,7 @@ class PlayerMoveCommand : public MoveCommandI {
 };
 
 PlayerMoveCommand::PlayerMoveCommand(PlayerI* player)
-    : player(player), mover(new MoveAction()) {}
+    : player(player), mover(new PlayerMover()) {}
 
 PlayerMoveCommand::~PlayerMoveCommand() {
     delete mover;
@@ -28,9 +28,9 @@ bool PlayerMoveCommand::canMove(int x, int y, char direction) {
     return player->canMove() && 
         (
         ((x > 0) && (direction == '<'))
-        || ((x < xLimit -1) && (direction == '>'))
+        || ((x < xLimit - 1) && (direction == '>'))
         || ((y > 0) && (direction == '^'))
-        || ((y < yLimit -1) && (direction == 'v'))
+        || ((y < yLimit - 1) && (direction == 'v'))
         );
 }
 
